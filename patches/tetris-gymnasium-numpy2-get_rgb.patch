@@ -1,0 +1,13 @@
+diff --git a/envs/tetris.py b/envs/tetris.py
+--- a/envs/tetris.py
++++ b/envs/tetris.py
+@@ -333,7 +333,8 @@
+         v_padding = np.ones((board_obs.shape[0] - 2 * max_size, max_len))
+         cnn_extra = np.vstack((queue_obs, v_padding, holder_obs))
+ 
+-        stack = np.hstack((board_obs, cnn_extra)).astype(np.integer)
++        # np.integer is abstract; NumPy 2.x rejects it as a dtype (use a concrete int type)
++        stack = np.hstack((board_obs, cnn_extra)).astype(np.int64)
+ 
+         # Convert to RGB
+         rgb = np.zeros((stack.shape[0], stack.shape[1], 3))
