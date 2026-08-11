@@ -1,6 +1,8 @@
 import numpy as np
 
-
+dataset_file_name = "dataset-test1.npy"
+dataset_folder = "datasets"
+dataset_file_name_with_path = dataset_folder +"/"+ dataset_file_name
 
 first = { "obs": np.array([True, False], dtype=np.bool),
          "action": 0,
@@ -11,9 +13,9 @@ second = { "obs": np.array([True, True], dtype=np.bool),
          "next_obs": np.array([True, False], dtype=np.bool)
          }
 
-np.save("dataset-test.npy", np.array([first, second]))
+np.save(dataset_file_name_with_path, np.array([first, second]))
 
-data = np.load("dataset-test.npy", allow_pickle=True)
+data = np.load(dataset_file_name_with_path, allow_pickle=True)
 
 print(data)
 print(type(data))
