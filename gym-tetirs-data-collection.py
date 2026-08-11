@@ -1,15 +1,23 @@
 import cv2
+import time
 import numpy as np
 import gymnasium as gym
 from gymnasium.spaces import MultiBinary 
 from tetris_gymnasium.envs.tetris import Tetris
 from gymnasium import ObservationWrapper
 
-# Hyperparameters
-total_dataset_size = 100000 # number of (obs, action) -> (next_obs) pairs
-dataset_file_name = "gym-tetris-dataset.npy"
+
+# -------------------------------------------------------------------------------------------------------------------------------------------
+# Parameters
+
+env_name = "tetris_gymnasium/Tetris"
+total_dataset_size = 100000 # number of (obs, action, next_obs) triplets
+time_stamp = time.strftime("%Y%m%d-%H%M%S")
+dataset_file_name = f"gym-tetris-dataset-{time_stamp}.npy"
 dataset_folder = "datasets"
 dataset_file_name_with_path = dataset_folder +"/"+ dataset_file_name
+render_mode = None # "human"
+key_waiting_time = 150
 # -------------------------------------------------------------------------------------------------------------------------------------------
  
 # Wrapper that transforms the original observation into a binary (20, 10) space 
@@ -66,14 +74,13 @@ actions = {
     2: 3,
     3: 7}
 
-def chooseAction(actions):
+def randomAction(actions):
     return actions[np.random.choice(len(actions))]
 
 # -------------------------------------------------------------------------------------------------------------------------------------------
 
 # create and reset the tetris environment
-env_old = gym.make("tetris_gymnasium/Tetris")
-env = BinaryObservationSpaceWrapper(env_old)
+env = BinaryObservationSpaceWrapper(gym.make(env_name, render_mode = render_mode))
 
 terminated = True
 data_size = 0
@@ -85,18 +92,21 @@ while total_dataset_size > data_size:
     # if we exit before 
     if terminated or truncated:
         obs, info = env.reset()
-    
-    #env.render()
+
+    if render_mode == "human":
+        env.render()
 
     # get a random action
-    action = chooseAction(actions)
+    action = randomAction(actions)
 
-    #print(f"Action: {actionNames[action]}")
+    if render_mode == "human":
+        print(f"Action: {actionNames[action]}")
 
     # apply action to the current state
     next_obs, reward, terminated, truncated, info = env.step(action)
 
-    #key = cv2.waitKey(150)
+    if render_mode == "human":
+        key = cv2.waitKey(key_waiting_time)
 
     data.append({
         "obs": obs,

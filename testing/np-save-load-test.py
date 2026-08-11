@@ -1,6 +1,9 @@
 import numpy as np
+import time
 
-dataset_file_name = "dataset-test1.npy"
+time_stamp = time.strftime("%Y%m%d-%H%M%S")
+
+dataset_file_name = f"dataset-test-{time_stamp}.npy"
 dataset_folder = "datasets"
 dataset_file_name_with_path = dataset_folder +"/"+ dataset_file_name
 
