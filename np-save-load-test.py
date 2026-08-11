@@ -11,9 +11,9 @@ second = { "obs": np.array([True, True], dtype=np.bool),
          "next_obs": np.array([True, False], dtype=np.bool)
          }
 
-np.save("data.npy", np.array([first, second]))
+np.save("dataset-test.npy", np.array([first, second]))
 
-data = np.load("data.npy", allow_pickle=True)
+data = np.load("dataset-test.npy", allow_pickle=True)
 
 print(data)
 print(type(data))
