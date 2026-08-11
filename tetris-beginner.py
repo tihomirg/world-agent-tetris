@@ -5,6 +5,11 @@ from gymnasium.spaces import MultiBinary
 from tetris_gymnasium.envs.tetris import Tetris
 from gymnasium import ObservationWrapper
 
+# Hyperparameters
+dataSize = 10000 # number of (obs, action) -> (next_obs) pairs
+
+# --------------------------------------------------------------
+
 # Wrapper that will transform the original observation into a binary (20, 10) space 
 class BinaryObservationSpaceWrapper(ObservationWrapper):
 
